@@ -1,4 +1,7 @@
 
+using ControleGastos.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ControleGastos
 {
     public class Program
@@ -6,6 +9,14 @@ namespace ControleGastos
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseMySql(
+                    connectionString,
+                    ServerVersion.AutoDetect(connectionString)
+                ));
 
             // Add services to the container.
 
