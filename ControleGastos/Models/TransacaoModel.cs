@@ -9,12 +9,9 @@ namespace ControleGastos.Models
         [Key]
         public int TransacaoId { get; set; }
         [MaxLength(400)]
-        [Required(ErrorMessage = "Este campo é obrigatório.")]
         public string Descricao { get; set; } = string.Empty;
-        [Required(ErrorMessage = "Este campo é obrigatório.")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Valor { get; set; }
-        [Required(ErrorMessage = "Este campo é obrigatório.")]
         public TipoTransacao Tipo { get; set; }
         public DateTime Data { get; set; } = DateTime.Now;
 

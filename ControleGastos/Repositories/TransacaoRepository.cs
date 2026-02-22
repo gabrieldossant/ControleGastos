@@ -1,4 +1,5 @@
 ﻿using ControleGastos.Data;
+using ControleGastos.DTOs.Transacao;
 using ControleGastos.Enum;
 using ControleGastos.Interfaces;
 using ControleGastos.Models;
@@ -27,13 +28,13 @@ namespace ControleGastos.Repositories
                 .ToListAsync();
         }
 
-        public async Task<PessoaModel?> GetPessoa(TransacaoModel pessoa)
+        public async Task<PessoaModel?> GetPessoa(CriarTransacaoDTO pessoa)
         {
             return await _context.Pessoas
                  .FirstOrDefaultAsync(x => x.PessoaId == pessoa.PessoaId);
         }
 
-        public async Task<CategoriaModel?> GetCategoria(TransacaoModel categoria)
+        public async Task<CategoriaModel?> GetCategoria(CriarTransacaoDTO categoria)
         {
             return await _context.Categorias
                 .FirstOrDefaultAsync(x => x.CategoriaId == categoria.CategoriaId);

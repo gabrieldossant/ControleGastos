@@ -1,4 +1,7 @@
-﻿using ControleGastos.Models;
+﻿using ControleGastos.DTOs.Categoria;
+using ControleGastos.DTOs.Transacao;
+using ControleGastos.Models;
+using ControleGastos.Response;
 using ControleGastos.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
@@ -22,12 +25,12 @@ namespace ControleGastos.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(TransacaoModel transacao)
+        public async Task<IActionResult> Post(CriarTransacaoDTO transacaoDto)
         {
             try
             {
-                await _service.CriarAsync(transacao);
-                return Ok("Transação criada com sucesso.");
+                var transacaoModel = await _service.CriarAsync(transacaoDto);
+                return Ok(ApiResponse<TransacaoResponseDTO>.Success(transacaoModel, "Transação realizada com sucesso. "));
             }
             catch(Exception ex)
             {
@@ -36,10 +39,10 @@ namespace ControleGastos.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] TransacaoModel transacao)
+        public async Task<IActionResult> Put(int id, [FromBody] EditarTransacaoDTO transacao)
         {
-            await _service.Atualizar(id, transacao);
-            return NoContent();
+            var transacaoModel = await _service.Atualizar(id, transacao);
+            return Ok(ApiResponse<TransacaoResponseDTO>.Success(transacaoModel, "Transação editada com sucesso. "));
         }
 
         [HttpDelete("{id}")]
