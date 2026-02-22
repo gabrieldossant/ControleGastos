@@ -21,7 +21,8 @@ namespace ControleGastos.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _service.ListarAsync());
+            var transacaoModel = await _service.ListarAsync();
+            return Ok(ApiResponse<List<TransacaoResponseDTO>>.Success(transacaoModel));
         }
 
         [HttpPost]

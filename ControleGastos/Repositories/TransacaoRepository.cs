@@ -24,6 +24,8 @@ namespace ControleGastos.Repositories
         public async Task<List<TransacaoModel>> GetAllAsync()
         {
             return await _context.Transacoes
+                .Include(x => x.Categoria)
+                .Include(x => x.Pessoa)
                 .OrderByDescending(x => x.TransacaoId)
                 .ToListAsync();
         }
