@@ -1,5 +1,6 @@
-﻿using ControleGastos.DTO;
+﻿using ControleGastos.DTOs.Pessoa;
 using ControleGastos.Models;
+using ControleGastos.Response;
 using ControleGastos.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
@@ -35,21 +36,22 @@ namespace ControleGastos.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PessoaDTO pessoaDto)
+        public async Task<IActionResult> Post([FromBody] CriarPessoaDTO pessoaDto)
+        {
+            var resultado = await _pessoaService.CriarAsync(pessoaDto);
+            return Ok(ApiResponse<PessoaResponseDTO>.Success(resultado, "Pessoa criada com sucesso. "));
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] CriarPessoaDTO pessoaDto)
         {
             var pessoaModel = new PessoaModel()
             {
+                PessoaId = id,
                 Nome = pessoaDto.Nome,
                 Idade = pessoaDto.Idade
             };
 
-            await _pessoaService.CriarAsync(pessoaModel);
-            return Created("", pessoaModel);
-        }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] PessoaModel pessoa)
-        {
-            await _pessoaService.Atualizar(id, pessoa);
+            await _pessoaService.Atualizar(id, pessoaModel);
             return NoContent();
         }
 

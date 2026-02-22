@@ -1,4 +1,5 @@
 ﻿using ControleGastos.DTO;
+using ControleGastos.DTOs.Pessoa;
 using ControleGastos.Enum;
 using ControleGastos.Interfaces;
 using ControleGastos.Models;
@@ -20,9 +21,22 @@ namespace ControleGastos.Services
         {
             return await _pessoaRepository.GetById(id);
         }
-        public async Task CriarAsync(PessoaModel pessoa)
+        public async Task<PessoaResponseDTO> CriarAsync(CriarPessoaDTO pessoa)
         {
-            await _pessoaRepository.Add(pessoa);
+            var pessoaModel = new PessoaModel()
+            {
+                Nome = pessoa.Nome,
+                Idade = pessoa.Idade
+            };
+
+            await _pessoaRepository.Add(pessoaModel);
+
+            return new PessoaResponseDTO
+            {
+                PessoaId = pessoaModel.PessoaId,
+                Nome = pessoaModel.Nome,
+                Idade = pessoaModel.Idade
+            };
         }
         public async Task Atualizar(int id, PessoaModel pessoaAlterada)
         {
