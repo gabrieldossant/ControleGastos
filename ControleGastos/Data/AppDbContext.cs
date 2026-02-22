@@ -8,9 +8,9 @@ namespace ControleGastos.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-        public DbSet<PessoaModel> pessoas { get; set; }
-        public DbSet<TransacaoModel> transacoes { get; set; }
-        public DbSet<CategoriaModel> categorias { get; set;}
+        public DbSet<PessoaModel> Pessoas { get; set; }
+        public DbSet<TransacaoModel> Transacoes { get; set; }
+        public DbSet<CategoriaModel> Categorias { get; set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PessoaModel>()
