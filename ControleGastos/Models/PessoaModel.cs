@@ -7,9 +7,9 @@ namespace ControleGastos.Models
         [Key]
         public int PessoaId { get; set; }
         [MaxLength(200)]
-        [Required]
+        [Required(ErrorMessage = "Este campo é obrigatório.")]
         public string Nome { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Este campo é obrigatório.")]
         public int Idade { get; set; }
         
         public List<TransacaoModel> Transacoes { get; set; } = new();
