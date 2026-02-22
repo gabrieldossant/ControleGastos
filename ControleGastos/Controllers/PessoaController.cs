@@ -1,4 +1,5 @@
-﻿using ControleGastos.Models;
+﻿using ControleGastos.DTO;
+using ControleGastos.Models;
 using ControleGastos.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
@@ -34,10 +35,16 @@ namespace ControleGastos.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PessoaModel pessoa)
+        public async Task<IActionResult> Post([FromBody] PessoaDTO pessoaDto)
         {
-            await _pessoaService.CriarAsync(pessoa);
-            return Created("", pessoa);
+            var pessoaModel = new PessoaModel()
+            {
+                Nome = pessoaDto.Nome,
+                Idade = pessoaDto.Idade
+            };
+
+            await _pessoaService.CriarAsync(pessoaModel);
+            return Created("", pessoaModel);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] PessoaModel pessoa)
@@ -53,7 +60,7 @@ namespace ControleGastos.Controllers
             return NoContent();
         }
 
-        [HttpGet]
+        [HttpGet("totais")]
         public async Task<IActionResult> ConsultarTotaisPorPessoa()
         {
             var resultado = await _pessoaService.ObterTotalPessoa();
