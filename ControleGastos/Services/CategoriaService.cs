@@ -1,4 +1,5 @@
-﻿using ControleGastos.Interfaces;
+﻿using ControleGastos.DTOs.Categoria;
+using ControleGastos.Interfaces;
 using ControleGastos.Models;
 
 namespace ControleGastos.Services
@@ -12,27 +13,53 @@ namespace ControleGastos.Services
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<List<CategoriaModel>> Listar()
+        public async Task<List<CategoriaResponseDTO>> Listar()
         {
-            return await _categoriaRepository.GetCategoriaAll();
+            var categoriasModel = await _categoriaRepository.GetCategoriaAll();
+
+            return categoriasModel.Select(x => new CategoriaResponseDTO
+            {
+                CategoriaId = x.CategoriaId,
+                Descricao = x.Descricao,
+                Finalidade = x.Finalidade
+            }).ToList();
         }
 
-        public async Task Criar(CategoriaModel categoria)
+        public async Task<CategoriaResponseDTO> Criar(CriarCategoriaDTO categoriaDto)
         {
-            await _categoriaRepository.Add(categoria);
+            var categoriaModel = new CategoriaModel()
+            {
+                Descricao = categoriaDto.Descricao,
+                Finalidade = categoriaDto.Finalidade
+            };
+            await _categoriaRepository.Add(categoriaModel);
+
+            return new CategoriaResponseDTO()
+            {
+                CategoriaId = categoriaModel.CategoriaId,
+                Descricao = categoriaModel.Descricao,
+                Finalidade = categoriaModel.Finalidade
+            };
         }
 
-        public async Task Atualizar(int id, CategoriaModel novaCategoria)
+        public async Task<CategoriaResponseDTO> Atualizar(int id, EditarCategoriaDTO categoriaAlterada)
         {
-            var categoria = await _categoriaRepository.GetById(id);
+            var categoriaModel = await _categoriaRepository.GetById(id);
 
-            if (categoria == null)
+            if (categoriaModel == null)
                 throw new Exception("Categoria não encontrada");
 
-            categoria.Descricao = novaCategoria.Descricao;
-            categoria.Finalidade = novaCategoria.Finalidade;
+            categoriaModel.Descricao = categoriaAlterada.Descricao;
+            categoriaModel.Finalidade = categoriaAlterada.Finalidade;
 
-            await _categoriaRepository.Update(categoria);
+            await _categoriaRepository.Update(categoriaModel);
+
+            return new CategoriaResponseDTO()
+            {
+                CategoriaId = categoriaModel.CategoriaId,
+                Descricao = categoriaModel.Descricao,
+                Finalidade = categoriaModel.Finalidade
+            };
         }
 
         public async Task Deletar(int id)

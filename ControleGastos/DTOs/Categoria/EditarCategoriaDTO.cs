@@ -1,16 +1,16 @@
 ﻿using ControleGastos.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace ControleGastos.Models
+namespace ControleGastos.DTOs.Categoria
 {
-    public class CategoriaModel
+    public class EditarCategoriaDTO
     {
-        [Key]
+        [Required]
         public int CategoriaId { get; set; }
+        [Required]
         [MaxLength(400)]
-        public string Descricao { get; set; } = string.Empty;
+        public string Descricao { get; set; }
+        [Required]
         public FinalidadeCategoria Finalidade { get; set; }
-
-        public List<TransacaoModel> Transacoes { get; set; } = new();
     }
 }

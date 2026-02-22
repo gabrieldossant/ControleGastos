@@ -1,4 +1,7 @@
-﻿using ControleGastos.Models;
+﻿using ControleGastos.DTOs.Categoria;
+using ControleGastos.DTOs.Pessoa;
+using ControleGastos.Models;
+using ControleGastos.Response;
 using ControleGastos.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,17 +25,17 @@ namespace ControleGastos.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CategoriaModel categoria)
+        public async Task<IActionResult> Post([FromBody] CriarCategoriaDTO categoriaDto)
         {
-            await _categoriaService.Criar(categoria);
-            return Created("", categoria);
+            var resultado = await _categoriaService.Criar(categoriaDto);
+            return Ok(ApiResponse<CategoriaResponseDTO>.Success(resultado, "Categoria criada com sucesso. "));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] CategoriaModel categoria)
+        public async Task<IActionResult> Put(int id, [FromBody] EditarCategoriaDTO categoriaDto)
         {
-            await _categoriaService.Atualizar(id, categoria);
-            return NoContent();
+            var resultado = await _categoriaService.Atualizar(id, categoriaDto);
+            return Ok(ApiResponse<CategoriaResponseDTO>.Success(resultado, "Categoria editada com sucesso. "));
         }
 
         [HttpDelete("{id}")]
