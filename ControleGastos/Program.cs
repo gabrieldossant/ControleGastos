@@ -1,6 +1,7 @@
 
 using ControleGastos.Data;
 using ControleGastos.Interfaces;
+using ControleGastos.Middlewares;
 using ControleGastos.Repositories;
 using ControleGastos.Services;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,11 @@ namespace ControleGastos
                     connectionString,
                     ServerVersion.AutoDetect(connectionString)
                 ));
+
+            builder.Services.AddControllers()
+            .AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler =
+                    System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 
             // Injeção de dependências 
             builder.Services.AddScoped<PessoaService>();
@@ -46,6 +52,7 @@ namespace ControleGastos
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
