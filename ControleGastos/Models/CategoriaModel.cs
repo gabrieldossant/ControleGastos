@@ -8,9 +8,9 @@ namespace ControleGastos.Models
         [Key]
         public int CategoriaId { get; set; }
         [MaxLength(400)]
-        [Required]
+        [Required(ErrorMessage = "Campo 'Descrição' obrigatório.")]
         public string Descricao { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Campo 'Finalidade' obrigatório.")]
         public FinalidadeCategoria Finalidade { get; set; }
 
         public List<TransacaoModel> Transacoes { get; set; } = new();
