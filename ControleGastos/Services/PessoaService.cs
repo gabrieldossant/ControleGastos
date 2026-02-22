@@ -13,13 +13,27 @@ namespace ControleGastos.Services
         {
             _pessoaRepository = pessoaRepository;
         }
-        public async Task<List<PessoaModel>> ListarPessoas()
+        public async Task<List<PessoaResponseDTO>> ListarPessoas()
         {
-            return await _pessoaRepository.GetAllPessoas();
+            var pessoaModel = await _pessoaRepository.GetAllPessoas();
+
+            return pessoaModel.Select(x => new PessoaResponseDTO
+            {
+                PessoaId = x.PessoaId,
+                Nome = x.Nome,
+                Idade = x.Idade
+            }).ToList();
         }
-        public async Task<PessoaModel?> BuscarPorId(int id)
+        public async Task<PessoaResponseDTO?> BuscarPorId(int id)
         {
-            return await _pessoaRepository.GetById(id);
+            var pessoaModel = await _pessoaRepository.GetById(id);
+
+            return new PessoaResponseDTO()
+            {
+                PessoaId = pessoaModel.PessoaId,
+                Nome = pessoaModel.Nome,
+                Idade = pessoaModel.Idade
+            };
         }
         public async Task<PessoaResponseDTO> CriarAsync(CriarPessoaDTO pessoa)
         {
@@ -38,17 +52,24 @@ namespace ControleGastos.Services
                 Idade = pessoaModel.Idade
             };
         }
-        public async Task Atualizar(int id, PessoaModel pessoaAlterada)
+        public async Task<PessoaResponseDTO> Atualizar(int id, EditarPessoaDTO pessoaAlterada)
         {
-            var pessoa = await _pessoaRepository.GetById(id);
+            var pessoaModel = await _pessoaRepository.GetById(id);
 
-            if (pessoa == null)
+            if (pessoaModel == null)
                 throw new Exception($"Não foi encontrado {pessoaAlterada.Nome} em nosso banco de dados.");
 
-            pessoa.Nome = pessoaAlterada.Nome;
-            pessoa.Idade = pessoaAlterada.Idade;
+            pessoaModel.Nome = pessoaAlterada.Nome;
+            pessoaModel.Idade = pessoaAlterada.Idade;
 
-            await _pessoaRepository.Update(pessoa);
+            await _pessoaRepository.Update(pessoaModel);
+
+            return new PessoaResponseDTO()
+            {
+                PessoaId = pessoaModel.PessoaId,
+                Nome = pessoaModel.Nome,
+                Idade = pessoaModel.Idade
+            };
         }
         public async Task Deletar(int id)
         {

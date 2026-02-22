@@ -42,17 +42,10 @@ namespace ControleGastos.Controllers
             return Ok(ApiResponse<PessoaResponseDTO>.Success(resultado, "Pessoa criada com sucesso. "));
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] CriarPessoaDTO pessoaDto)
+        public async Task<IActionResult> Put(int id, [FromBody] EditarPessoaDTO pessoaDto)
         {
-            var pessoaModel = new PessoaModel()
-            {
-                PessoaId = id,
-                Nome = pessoaDto.Nome,
-                Idade = pessoaDto.Idade
-            };
-
-            await _pessoaService.Atualizar(id, pessoaModel);
-            return NoContent();
+            var resultado = await _pessoaService.Atualizar(id, pessoaDto);
+            return Ok(ApiResponse<PessoaResponseDTO>.Success(resultado, "Dados alterado com sucesso. "));
         }
 
         [HttpDelete("{id}")]
