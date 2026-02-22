@@ -15,7 +15,7 @@ namespace ControleGastos.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Criar(TransacaoModel transacao)
+        public async Task<IActionResult> Post(TransacaoModel transacao)
         {
             try
             {
@@ -29,13 +29,13 @@ namespace ControleGastos.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Listar()
+        public async Task<IActionResult> Get()
         {
             return Ok(await _service.ListarAsync());
         }
 
         [HttpGet("saldo")]
-        public async Task<IActionResult> Saldo()
+        public async Task<IActionResult> GetSaldo()
         {
             return Ok(await _service.ObterSaldoAsync());
         }
