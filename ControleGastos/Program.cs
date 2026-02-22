@@ -1,5 +1,8 @@
 
 using ControleGastos.Data;
+using ControleGastos.Interfaces;
+using ControleGastos.Repositories;
+using ControleGastos.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControleGastos
@@ -17,6 +20,16 @@ namespace ControleGastos
                     connectionString,
                     ServerVersion.AutoDetect(connectionString)
                 ));
+
+            // Injeção de dependências 
+            builder.Services.AddScoped<PessoaService>();
+            builder.Services.AddScoped<IPessoaRepository, PessoaRepository>();
+
+            builder.Services.AddScoped<TransacaoService>();
+            builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+
+            builder.Services.AddScoped<CategoriaService>();
+            builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
             // Add services to the container.
 
