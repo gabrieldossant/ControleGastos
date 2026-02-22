@@ -39,6 +39,24 @@ namespace ControleGastos.Repositories
                 .FirstOrDefaultAsync(x => x.CategoriaId == categoria.CategoriaId);
         }
 
+        public async Task<TransacaoModel?> GetTransacaoById(int id)
+        {
+            return await _context.Transacoes
+                .FirstOrDefaultAsync(x => x.TransacaoId == id);
+        }
+
+        public async Task Update(TransacaoModel transacao)
+        {
+            _context.Transacoes.Update(transacao);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(TransacaoModel transacao)
+        {
+            _context.Transacoes.Remove(transacao);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<decimal> GetSaldoAsync()
         {
             var entradas = await _context.Transacoes

@@ -1,6 +1,7 @@
 ﻿using ControleGastos.Models;
 using ControleGastos.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace ControleGastos.Controllers
 {
@@ -12,6 +13,12 @@ namespace ControleGastos.Controllers
         public TransacaoController(TransacaoService service)
         {
             _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _service.ListarAsync());
         }
 
         [HttpPost]
@@ -28,10 +35,18 @@ namespace ControleGastos.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] TransacaoModel transacao)
         {
-            return Ok(await _service.ListarAsync());
+            await _service.Atualizar(id, transacao);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.Deletar(id);
+            return NoContent();
         }
 
         [HttpGet("saldo")]
