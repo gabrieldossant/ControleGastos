@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleGastos.Controllers
 {
+    /// <summary>
+    /// Controller Categoria responsável pelo gerenciamento de categorias.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriaController : Controller
@@ -17,6 +20,10 @@ namespace ControleGastos.Controllers
             _categoriaService = categoriaService;
         }
 
+        /// <summary>
+        /// Lista todas as categorias cadastradas no sistema.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -24,6 +31,12 @@ namespace ControleGastos.Controllers
             return Ok(categorias);
         }
 
+        /// <summary>
+        /// Cria uma nova categoria no sistema. Recebe um objeto do tipo CriarCategoriaDTO contendo as informações da categoria a ser criada. 
+        /// Retorna um objeto do tipo CategoriaResponseDTO com os detalhes da categoria criada.
+        /// </summary>
+        /// <param name="categoriaDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CriarCategoriaDTO categoriaDto)
         {
@@ -31,6 +44,13 @@ namespace ControleGastos.Controllers
             return Ok(ApiResponse<CategoriaResponseDTO>.Success(resultado, "Categoria criada com sucesso. "));
         }
 
+        /// <summary>
+        /// Atualiza uma categoria existente no sistema. 
+        /// Recebe o ID da categoria a ser atualizada e um objeto do tipo EditarCategoriaDTO contendo as novas informações da categoria.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="categoriaDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] EditarCategoriaDTO categoriaDto)
         {
@@ -38,6 +58,12 @@ namespace ControleGastos.Controllers
             return Ok(ApiResponse<CategoriaResponseDTO>.Success(resultado, "Categoria editada com sucesso. "));
         }
 
+        /// <summary>
+        /// Deleta uma categoria existente no sistema. Recebe o ID da categoria a ser deletada e remove a categoria correspondente do banco de dados. 
+        /// Retorna uma resposta de sucesso sem conteúdo (204 No Content) para indicar que a operação foi concluída com êxito.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

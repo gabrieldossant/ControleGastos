@@ -7,6 +7,9 @@ using System.Drawing;
 
 namespace ControleGastos.Services
 {
+    /// <summary>
+    /// Service responsável pelo gerenciamento de transações, incluindo operações de criação, leitura, atualização e exclusão (CRUD) de transações,
+    /// </summary>
     public class TransacaoService
     {
         private readonly ITransacaoRepository _transacaoRepository;
@@ -15,6 +18,13 @@ namespace ControleGastos.Services
             _transacaoRepository = transacaoRepository;
         }
 
+        /// <summary>
+        /// Cria uma nova transação, realizando validações para garantir a integridade dos dados, como verificar se a pessoa e a categoria existem, 
+        /// se o menor de idade pode receber receitas, se a categoria permite o tipo de transação e se o valor é positivo.
+        /// </summary>
+        /// <param name="transacaoDto"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<TransacaoResponseDTO> CriarAsync(CriarTransacaoDTO transacaoDto)
         {
             var pessoa = await _transacaoRepository.GetPessoa(transacaoDto);
@@ -80,6 +90,8 @@ namespace ControleGastos.Services
             }).ToList();
         }
 
+        // Atualiza uma transação existente, permitindo a modificação de seus atributos,
+        // como descrição, valor e tipo, e garantindo que a transação exista antes de realizar a atualização.
         public async Task<TransacaoResponseDTO> Atualizar(int id, EditarTransacaoDTO transacaoAlterada)
         {
             var transacaoModel = await _transacaoRepository.GetTransacaoById(id);
@@ -105,6 +117,13 @@ namespace ControleGastos.Services
                 NomePessoa = transacaoModel.Pessoa.Nome
             };
         }
+
+        /// <summary>
+        /// Deleta uma transação existente, removendo-a do banco de dados, e caso a transação não seja encontrada, lança uma exceção para indicar que a operação não pode ser concluída.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task Deletar (int id)
         {
             var transacao = await _transacaoRepository.GetTransacaoById(id);
@@ -115,6 +134,10 @@ namespace ControleGastos.Services
             await _transacaoRepository.Delete(transacao);
         }
 
+        /// <summary>
+        /// Retorna o saldo atual, calculado como a diferença entre o total de receitas e o total de despesas, utilizando os dados das transações registradas no sistema.
+        /// </summary>
+        /// <returns></returns>
         public async Task<decimal> ObterSaldoAsync()
         {
             return await _transacaoRepository.GetSaldoAsync();

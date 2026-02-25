@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ControleGastos.Models
 {
+    /// <summary>
+    /// Modelo de Transacao associado ao contexto de transação, representando as transações financeiras realizadas, 
+    /// contendo informações como descrição, valor, tipo, data,
+    /// </summary>
     public class TransacaoModel
     {
         [Key]

@@ -1,5 +1,10 @@
 ﻿namespace ControleGastos.Response
 {
+    /// <summary>
+    /// Classe responsável por estruturar as respostas das APIs, 
+    /// encapsulando informações sobre o sucesso da operação, mensagens de retorno e os dados resultantes.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ApiResponse<T>
     {
         public bool Sucesso { get; set; }

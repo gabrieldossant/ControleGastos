@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ControleGastos.Models
 {
+    /// <summary>
+    /// Modelo associado ao contexto de categoria que representa as categorias de transações financeiras, 
+    /// contendo informações como descrição, finalidade e a lista de transações associadas a cada categoria.
+    /// </summary>
     public class CategoriaModel
     {
         [Key]

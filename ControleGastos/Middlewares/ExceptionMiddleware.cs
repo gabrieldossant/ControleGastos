@@ -2,6 +2,10 @@
 
 namespace ControleGastos.Middlewares
 {
+    /// <summary>
+    /// Middleware responsável por capturar exceções não tratadas durante o processamento das requisições HTTP e 
+    /// retornar uma resposta JSON estruturada com informações sobre o erro ocorrido, utilizando a classe ApiResponse para formatar a resposta de erro.
+    /// </summary>
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
@@ -10,6 +14,12 @@ namespace ControleGastos.Middlewares
             _next = next;
         }
 
+        /// <summary>
+        /// Método responsável por invocar o próximo middleware na pipeline de processamento de requisições HTTP e 
+        /// capturar quaisquer exceções não tratadas que possam ocorrer durante esse processo.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
             try

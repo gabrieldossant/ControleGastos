@@ -2,6 +2,10 @@
 
 namespace ControleGastos.Models
 {
+    /// <summary>
+    /// Classe Modelo Pessoa associada ao contexto de pessoa, representando as pessoas envolvidas nas transações financeiras, 
+    /// contendo informações como nome, idade e a lista de transações associadas a cada pessoa.
+    /// </summary>
     public class PessoaModel
     {
         [Key]

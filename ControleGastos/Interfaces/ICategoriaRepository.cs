@@ -2,6 +2,10 @@
 
 namespace ControleGastos.Interfaces
 {
+    /// <summary>
+    /// Interface responsavel pelo contrato de operações relacionadas à entidade Categoria, incluindo métodos para obter todas as categorias, 
+    /// obter por ID, adicionar, atualizar e excluir categorias.
+    /// </summary>
     public interface ICategoriaRepository
     {
         Task<List<CategoriaModel>> GetCategoriaAll();

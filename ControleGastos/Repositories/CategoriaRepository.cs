@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleGastos.Repositories
 {
+    /// <summary>
+    /// Repository responsável pelo gerenciamento de categorias, incluindo operações de criação, 
+    /// leitura, atualização e exclusão (CRUD) de categorias, e acesso ao banco.
+    /// </summary>
     public class CategoriaRepository : ICategoriaRepository
     {
         private readonly AppDbContext _context;
@@ -12,6 +16,7 @@ namespace ControleGastos.Repositories
         {
             _context = context;
         }
+
         public async Task<List<CategoriaModel>> GetCategoriaAll()
         {
             return await _context.Categorias
